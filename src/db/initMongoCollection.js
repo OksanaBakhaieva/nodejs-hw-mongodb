@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import env from '../src/utils/env.js';
+import env from '../utils/env.js';
 
 const initMongoCollection = async () => {
     try {
