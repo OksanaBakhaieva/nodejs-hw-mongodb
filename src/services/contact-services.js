@@ -21,4 +21,10 @@ export const upsertContact = async (filter, data, options = {}) => {
     };
 };
 
-export const deleteContact = filter => Contact.findOneAndDelete(filter);
+// export const deleteContact = filter => Contact.findOneAndDelete(filter);
+export const deleteContact = (contactId) => {
+    const contact = Contact.findOneAndDelete({
+        _id: contactId,
+    });
+    return contact;
+};
