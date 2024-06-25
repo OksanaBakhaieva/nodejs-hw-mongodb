@@ -6,7 +6,7 @@ export const getContactByID = (contactId) => Contact.findById(contactId);
 
 export const addContact = data => Contact.create(data);
 
-export const upsertContact = async (filter, data, options = {}) => {
+export const updateContact = async (filter, data, options = {}) => {
     const result = await Contact.findOneAndUpdate(filter, data, {
         new: true,
         includeResultMetadata: true,
