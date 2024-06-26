@@ -13,12 +13,7 @@ export const updateContact = async (filter, data, options = {}) => {
         ...options,
     });
     if (!result || !result.value) return null;
-    // const isNew = data && data.lastErrorObject && data.lastErrorObject.upserted;
-    const isNew = Boolean(result?.lastErrorObject?.upserted);
-    return {
-        data: result.value,
-        isNew,
-    };
+    return result.value;
 };
 
 // export const deleteContact = filter => Contact.findOneAndDelete(filter);
