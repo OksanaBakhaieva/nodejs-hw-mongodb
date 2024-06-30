@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { contactTypeArray } from '../../constants/contacts-constants.js';
-import { setUpdateSettings, validateBody } from './hooks.js';
+import { mongooseSaveError, setUpdateSettings } from './hooks.js';
 
 const contactSchema = new Schema({
         name: {
@@ -30,10 +30,10 @@ const contactSchema = new Schema({
     versionKey: false,
     });
 
-contactSchema.post("save", validateBody);
+contactSchema.post("save", mongooseSaveError);
 contactSchema.pre("findOneAndUpdate", setUpdateSettings);
-contactSchema.post("findOneAndUpdate", validateBody);
+contactSchema.post("findOneAndUpdate", mongooseSaveError);
 
-const Contact = model("contact", contactSchema);
+const Contact = model("contacts", contactSchema);
 
 export default Contact;

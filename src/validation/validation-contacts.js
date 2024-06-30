@@ -1,8 +1,29 @@
-// export const updateStudentSchema = Joi.object({
-//   name: Joi.string().min(3).max(30),
-//   email: Joi.string().email(),
-//   age: Joi.number().integer().min(6).max(16),
-//   gender: Joi.string().valid('male', 'female', 'other'),
-//   avgMark: Joi.number().min(2).max(12),
-//   onDuty: Joi.boolean(),
-// });
+import Joi from 'joi';
+import { contactTypeArray } from '../constants/contacts-constants.js';
+
+
+export const addContactSchema = Joi.object({
+    name: Joi.string().required().min(3).max(20).messages({
+    'string.base': 'Username should be a string',
+    'string.min': 'Username should have at least {3} characters',
+    'string.max': 'Username should have at most {20} characters',
+    'any.required': 'Username is required',
+  }),
+    phoneNumber: Joi.string().required().min(3).max(20),
+    email: Joi.string().email().min(3).max(20),
+    isFavourite: Joi.boolean(),
+    contactType: Joi.string().valid(...contactTypeArray).required()
+});
+
+export const updateContactSchema = Joi.object({
+    name: Joi.string().min(3).max(20).messages({
+    'string.base': 'Username should be a string',
+    'string.min': 'Username should have at least {3} characters',
+    'string.max': 'Username should have at most {20} characters',
+    'any.required': 'Username is required',
+  }),
+    phoneNumber: Joi.string().min(3).max(20),
+    email: Joi.string().email().min(3).max(20),
+    isFavourite: Joi.boolean(),
+    contactType: Joi.string().valid(...contactTypeArray)
+});

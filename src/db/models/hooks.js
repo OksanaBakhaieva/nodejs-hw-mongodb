@@ -1,4 +1,4 @@
-export const validateBody = (error, data, next) => {
+export const mongooseSaveError = (error, data, next) => {
     error.status = 400;
     next();
 };
