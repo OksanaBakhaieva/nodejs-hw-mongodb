@@ -1,26 +1,22 @@
-const parsePaginationParams = (query) => {
-    const { page, perPage } = query;
-    if (typeof page !== 'string') {
-        return 1;
+const parsedNumber = (value, defaultValue) => {
+    if (typeof value !== "string") {
+        return defaultValue;
     }
-    if (typeof perPage !== 'string') {
-        return 10;
+    const parsedValue = parseInt(value);
+    if (Number.isNaN(parsedValue)) {
+        return defaultValue;
     }
-    let parsedPage = parseInt(page);
-    let parsedPerPage = parseInt(perPage);
 
-    if (Number.isNaN(parsedPage)) {
-        parsedPage = 1;
-    }
-    if (Number.isNaN(parsedPerPage)) {
-        parsedPerPage = 10;
-    }
-    
+    return parsedValue;
+};
+const parsePaginationParams = ({ page, perPage }) => {
+    const parsedPage = parsedNumber(page, 1);
+    const parsedPerPage = parsedNumber(perPage, 10);
+
     return {
         page: parsedPage,
         perPage: parsedPerPage,
     };
 };
-
 
 export default parsePaginationParams;
