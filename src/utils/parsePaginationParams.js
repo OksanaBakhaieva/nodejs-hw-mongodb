@@ -15,9 +15,7 @@ const parsePaginationParams = (query) => {
     if (Number.isNaN(parsedPerPage)) {
         parsedPerPage = 10;
     }
-    console.log(parsedPage);
-    console.log(parsedPerPage);
-
+    
     return {
         page: parsedPage,
         perPage: parsedPerPage,
