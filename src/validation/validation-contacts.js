@@ -1,8 +1,8 @@
 import Joi from 'joi';
-import { contactTypeArray } from '../constants/contacts-constants.js';
+import { contactType } from '../constants/contacts-constants.js';
 
 
-export const addContactSchema = Joi.object({
+export const contactAddSchema = Joi.object({
     name: Joi.string().required().min(3).max(20).messages({
     'string.base': 'Username should be a string',
     'string.min': 'Username should have at least {3} characters',
@@ -12,10 +12,10 @@ export const addContactSchema = Joi.object({
     phoneNumber: Joi.string().required().min(3).max(20),
     email: Joi.string().email().min(3).max(20),
     isFavourite: Joi.boolean(),
-    contactType: Joi.string().valid(...contactTypeArray).required()
+    contactType: Joi.string().valid(...contactType).required()
 });
 
-export const updateContactSchema = Joi.object({
+export const contactPatchSchema = Joi.object({
     name: Joi.string().min(3).max(20).messages({
     'string.base': 'Username should be a string',
     'string.min': 'Username should have at least {3} characters',
@@ -25,5 +25,5 @@ export const updateContactSchema = Joi.object({
     phoneNumber: Joi.string().min(3).max(20),
     email: Joi.string().email().min(3).max(20),
     isFavourite: Joi.boolean(),
-    contactType: Joi.string().valid(...contactTypeArray)
+    contactType: Joi.string().valid(...contactType)
 });

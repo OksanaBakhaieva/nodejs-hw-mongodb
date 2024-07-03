@@ -12,15 +12,20 @@ const port = env('PORT', '3000');
 const setupServer = () => {
 
     const app = express();
-    const logger = pino({
-        transport: {
-            target: 'pino-pretty',
-        }
-    });
-
-    app.use(logger);
+    app.use(
+        express.json({
+            type: ['application/json', 'application/vnd.api+json'],
+            limit: '100kb',
+        }),
+    );
     app.use(cors());
-    app.use(express.json());
+    app.use(
+        pino({
+            transport: {
+                target: 'pino-pretty',
+            },
+        }),
+    );
     app.use('/contacts', contactsRouter);
 
     app.use(notFoundHandler);
