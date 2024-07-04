@@ -20,7 +20,6 @@ export const contactPatchSchema = Joi.object({
     'string.base': 'Username should be a string',
     'string.min': 'Username should have at least {3} characters',
     'string.max': 'Username should have at most {20} characters',
-    'any.required': 'Username is required',
   }),
     phoneNumber: Joi.string().min(3).max(20),
     email: Joi.string().email().min(3).max(20),
