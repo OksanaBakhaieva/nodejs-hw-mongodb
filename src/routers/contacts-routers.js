@@ -1,8 +1,8 @@
 import express from 'express';
-import { addContactController, deleteContactController, getAllContactsController, getContactByIdController, patchContactController } from '../controllers/contacts.js';
+import { addContactController, deleteContactController, getAllContactsController, getContactByIdController, patchContactController } from '../controllers/contacts-controllers.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 import isValidId from '../middlewares/isValidId.js';
-import { contactAddSchema, contactPatchSchema } from '../validation/validation-contacts.js';
+import { contactAddSchema, contactPatchSchema } from '../validation/contacts-validation.js';
 import validateBody from '../utils/validateBody.js';
 
 const contactsRouter = express.Router();

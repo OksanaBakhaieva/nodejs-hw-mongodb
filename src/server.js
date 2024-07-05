@@ -2,9 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 import env from './utils/env.js';
-import contactsRouter from './routers/contacts.js';
+import contactsRouter from './routers/contacts-routers.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
+import authRouter from './routers/auth-router.js';
 
 
 const port = env('PORT', '3000');
@@ -26,6 +27,8 @@ const setupServer = () => {
             },
         }),
     );
+
+    app.use('/auth', authRouter);
     app.use('/contacts', contactsRouter);
 
     app.use(notFoundHandler);
