@@ -1,15 +1,10 @@
-// userId - string, required
-// accessToken - string, required
-// refreshToken - string, required
-// accessTokenValidUntil - Date, required
-// refreshTokenValidUntil - Date, required
-
 import { Schema, model } from 'mongoose';
 import { mongooseSaveError, setUpdateSettings } from './hooks.js';
 
 const sessionSchema = new Schema({
     userId: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: "user",
         required: true,
     },
     accessToken: {

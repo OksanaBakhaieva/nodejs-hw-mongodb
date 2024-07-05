@@ -1,6 +1,19 @@
 import createHttpError from "http-errors";
 import { register, findUser } from "../services/auth-services.js";
 import { compareHash } from "../utils/hash.js";
+import { createSession } from "../services/session-services.js";
+
+const setupResponseSession = (res, { refreshToken, refreshTokenValidUntil, _id }) => {
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        expires: refreshTokenValidUntil,
+    });
+
+    res.cookie("sessionId", _id, {
+        httpOnly: true,
+        expires: refreshTokenValidUntil,
+    });
+};
 
 export const registerController = async (req, res) => {
     const { email } = req.body;
@@ -25,7 +38,7 @@ export const registerController = async (req, res) => {
 
 export const loginController = async (req, res) => {
     const { email, password } = req.body;
-        const user = await findUser({ email });
+    const user = await findUser({ email });
 
     if (!user) {
         throw createHttpError(401, "Email is invalid!");
@@ -36,17 +49,15 @@ export const loginController = async (req, res) => {
         throw createHttpError(401, "Password is invalid!");
     };
 
-    // const accessToken = '122.4q52';
-    // const refreshToken = '2132.4151.33';
+    const session = await createSession(user._id);
 
-    // res.json({
-    //     accessToken,
-    //     refreshToken
-    // });
+    setupResponseSession(res, session);
 
     res.status(200).json({
         status: 200,
         message: "The user was logged in successfully!",
-
+        data: {
+            accessToken: session.accessToken,
+        }
     });
 };
