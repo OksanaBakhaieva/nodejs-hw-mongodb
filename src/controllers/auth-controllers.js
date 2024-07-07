@@ -61,3 +61,29 @@ export const loginController = async (req, res) => {
         }
     });
 };
+
+export const refreshController = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await findUser({ email });
+
+    if (!user) {
+        throw createHttpError(401, "Email is invalid!");
+    }
+
+    const passwordCompare = await compareHash(password, user.password);
+    if (!passwordCompare) {
+        throw createHttpError(401, "Password is invalid!");
+    };
+
+    const session = await createSession(user._id);
+
+    setupResponseSession(res, session);
+
+    res.status(200).json({
+        status: 200,
+        message: "Successfully refreshed a session!",
+        data: {
+            accessToken: session.accessToken,
+        }
+    });
+};
