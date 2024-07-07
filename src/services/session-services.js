@@ -3,7 +3,7 @@ import Session from '../db/models/Session.js';
 import { ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '../constants/session-constants.js';
 
 export const findSession = (filter) => {
-    Session.findOne(filter);
+    return Session.findOne(filter);
 };
 
 export const createSession = async (userId) => {
@@ -23,3 +23,4 @@ export const createSession = async (userId) => {
     });
 };
 
+export const deleteSession = filter => Session.deleteOne(filter);

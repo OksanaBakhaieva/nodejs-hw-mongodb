@@ -5,6 +5,9 @@ export const getContacts = async ({ filter, page, perPage, sortBy = '_id', sortO
     const skip = (page - 1) * perPage;
 
     const contactsQuery = Contact.find();
+    if (filter.userId) {
+        contactsQuery.where("userId").equals(filter.userId);
+    };
     if (filter.type) {
         contactsQuery.where("type").equals(filter.type);
     }
@@ -27,7 +30,10 @@ export const getContacts = async ({ filter, page, perPage, sortBy = '_id', sortO
     };
 };
 
-export const getContactByID = (contactId) => Contact.findById(contactId);
+export const getOneContact = async(filter) => {
+    const contact = await Contact.findOne(filter);
+    return contact;
+};
 
 export const addContact = data => Contact.create(data);
 
