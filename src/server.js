@@ -15,18 +15,12 @@ const setupServer = () => {
 
     const app = express();
 
-    // app.use(
-    //     express.json({
-    //         type: ['application/json', 'application/vnd.api+json'],
-    //         limit: '100kb',
-    //     }),
-    // );
-
     const logger = pino({
         transport: {
             target: 'pino-pretty',
         },
     });
+
     app.use(logger);
     app.use(cors());
     app.use(cookieParser());
