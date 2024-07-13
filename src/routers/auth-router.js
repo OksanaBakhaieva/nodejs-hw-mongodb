@@ -10,5 +10,6 @@ authRouter.post('/register', validateBody(userRegisterSchema), ctrlWrapper(regis
 authRouter.post('/login', validateBody(userLoginSchema), ctrlWrapper(loginController));
 authRouter.post('/refresh', ctrlWrapper(refreshController));
 authRouter.post('/logout', ctrlWrapper(logoutController));
+authRouter.post('/send-reset-email', validateBody(), ctrlWrapper());
 
 export default authRouter;
