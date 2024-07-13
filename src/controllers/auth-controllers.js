@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { register, findUser, requestResetToken } from "../services/auth-services.js";
+import { register, findUser, requestResetToken, resetPassword } from "../services/auth-services.js";
 import { compareHash } from "../utils/hash.js";
 import { createSession, deleteSession, findSession } from "../services/session-services.js";
 
@@ -102,10 +102,27 @@ export const logoutController = async (req, res) => {
 };
 
 export const sendResetEmailController = async (req, res) => {
+    const { email } = req.body;
+    const user = await findUser({ email });
+
+    if (!user) {
+        throw createHttpError(404, "User not found!");
+    }
+
     await requestResetToken(req.body.email);
+    
     res.json({
         status: 200,
-        message: "reset password email has been successfully sent.",
+        message: "Reset password email has been successfully sent.",
         data: {}
     });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    message: 'Password was successfully reset!',
+    status: 200,
+    data: {},
+  });
 };

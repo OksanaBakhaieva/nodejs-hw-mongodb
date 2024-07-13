@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import User from '../db/models/User.js';
 import { hashValue } from "../utils/hash.js";
 import jwt from 'jsonwebtoken';
-import { env } from '../utils/env.js';
+import env from '../utils/env.js';
 import { sendEmail } from '../utils/sendMail.js';
 import { SMTP, TEMPLATES_DIR } from '../constants/index.js';
 import handlebars from 'handlebars';
@@ -53,4 +53,30 @@ export const requestResetToken = async (email) => {
         subject: 'Reset your password',
         html,
     });
+};
+
+export const resetPassword = async (payload) => {
+    let entries;
+    try {
+        entries = jwt.verify(payload.token, env('JWT_SECRET'));
+    } catch (err) {
+        if (err instanceof Error)
+            throw createHttpError(401, 'Token is expired or invalid.');
+        }
+
+    const user = await User.findOne({
+        email: entries.email,
+        _id: entries.sub,
+    });
+
+    if (!user) {
+        throw createHttpError(404, 'User not found');
+    }
+
+    const encryptedPassword = await hashValue(payload.password, 10);
+
+    await User.updateOne(
+    { _id: user._id },
+    { password: encryptedPassword },
+  );
 };
