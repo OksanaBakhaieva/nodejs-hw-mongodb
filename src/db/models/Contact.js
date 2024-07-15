@@ -23,12 +23,15 @@ const contactSchema = new Schema({
             enum: contactType,
             required: true,
             default: 'personal',
-    },
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: "user",
-        required: true,
-        }
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+            required: true,
+        },
+        photo: {
+                type: String
+            },
     },
     {
     timestamps: true,
