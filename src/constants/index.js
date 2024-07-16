@@ -11,6 +11,8 @@ export const SMTP = {
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
 export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp');
 export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
+// export const TEMP_UPLOAD_DIR = path.resolve('src', 'temp');
+// export const UPLOAD_DIR = path.resolve('src', 'uploads');
 
 export const CLOUDINARY = {
   CLOUD_NAME: 'CLOUDINARY_CLOUD_NAME',

@@ -66,7 +66,7 @@ export const refreshController = async (req, res) => {
     const { refreshToken, sessionId } = req.cookies;
 
     const currentSession = await findSession({_id: sessionId, refreshToken });
-    console.log(sessionId);
+    
     if (!currentSession) {
         throw createHttpError(401, "Session not found!");
     }
@@ -110,7 +110,7 @@ export const sendResetEmailController = async (req, res) => {
     }
 
     await requestResetToken(req.body.email);
-    
+
     res.json({
         status: 200,
         message: "Reset password email has been successfully sent.",

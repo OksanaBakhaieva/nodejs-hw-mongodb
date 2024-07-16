@@ -10,7 +10,6 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 
 export const getAllContactsController = async (req, res) => {
     const { _id: userId } = req.user;
-
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query, contactFieldList);
     const filter = { ...parseContactsFilterParams(req.query), userId };
@@ -46,8 +45,21 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const addContactController = async (req, res) => {
-    const {_id: userId } = req.user;
-    const contact = await addContact({ ...req.body, userId });
+    const { _id: userId } = req.user;
+    let photo = '';
+
+    if (req.file) {
+        if (env('ENABLE_CLOUDINARY') === 'true') {
+        photo = await saveFileToCloudinary(req.file, 'photo');
+        } else {
+        photo = await saveFileToUploadDir(req.file, 'photo');
+        }
+    };
+    const contact = await addContact({
+        ...req.body,
+        userId,
+        photo,
+    });
     res.status(201).json({
         status: 201,
         message: 'Successfully created a contact!',
@@ -58,25 +70,19 @@ export const addContactController = async (req, res) => {
 export const patchContactController = async(req, res, next) => {
     const { contactId } = req.params;
     const { _id: userId } = req.user;
-    const photo = req.file;
+    let photo = '';
 
-    let photoUrl;
-
-    if (photo) {
+    if (req.file) {
         if (env("ENABLE_CLOUDINARY") === "true") {
-            photoUrl = await saveFileToCloudinary(photo);
+            photo = await saveFileToCloudinary(req.file, 'photo');
         } else {
-            photoUrl = await saveFileToUploadDir(photo);
+            photo = await saveFileToUploadDir(req.file, 'photo');
         }
     }
 
-// if (photo) {
-//     photoUrl = await saveFileToUploadDir(photo);
-//   }
-
     const contact = await updateContact({ _id: contactId, userId }, {
         ...req.body,
-        photo: photoUrl,
+        photo,
     });
     if (!contact) {
         next(createHttpError(404, 'Contact not found'));
