@@ -66,7 +66,7 @@ export const refreshController = async (req, res) => {
     const { refreshToken, sessionId } = req.cookies;
 
     const currentSession = await findSession({_id: sessionId, refreshToken });
-    console.log(sessionId);
+
     if (!currentSession) {
         throw createHttpError(401, "Session not found!");
     }
@@ -86,7 +86,6 @@ export const refreshController = async (req, res) => {
             accessToken: newSession.accessToken,
         }
     });
-
 };
 
 export const logoutController = async (req, res) => {
