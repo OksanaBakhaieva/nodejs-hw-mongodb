@@ -66,7 +66,7 @@ export const refreshController = async (req, res) => {
     const { refreshToken, sessionId } = req.cookies;
 
     const currentSession = await findSession({_id: sessionId, refreshToken });
-    
+
     if (!currentSession) {
         throw createHttpError(401, "Session not found!");
     }
